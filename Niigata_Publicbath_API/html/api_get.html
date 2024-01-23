@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>ホーム画面(検索と表示)</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-9">
+                <h1 class="display-3">ホーム画面(検索と表示)</h1>
+            </div>
+            <div class="col-3" style="padding: 10px;">
+                <button type="button" class="btn btn-outline-primary"> <a href="api_psot.html">
+                        銭湯の追加画面へ
+                    </a>
+                </button>
+            </div>
+        </div>
+
+        <div style="height: 16px;"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h2>銭湯検索</h2>
+                    <div class="container">
+                        <label for="name">銭湯名を入力してください:</label>
+                        <input class="form-control" type="text" id="name" placeholder="例：新潟駅銭湯"><br>
+
+                        <label for="distance">新潟駅からの距離(M)を入力してください:</label>
+                        <input class="form-control" type="number" id="distance" min="0" max="1000000"
+                            placeholder="例：500"><br>
+
+                        <label for="time">新潟駅からの徒歩所要時間(分)を入力してください:</label>
+                        <input class="form-control" type="number" id="time" min="0" max="50000" placeholder="例：5"><br>
+
+                        <label for="business_holiday">定休日を入力してください:</label>
+                        <input class="form-control" type="text" id="business_holiday" placeholder="例：月、火"><br>
+
+                        <label for="opening_time">営業開始時間を入力してください:</label>
+                        <input class="form-control" type="number" id="opening_time" min="0" max="24"
+                            placeholder="例：8"><br>
+
+                        <label for="ending_time">閉店時間を入力してください:</label>
+                        <input class="form-control" type="number" id="ending_time" min="0" max="24"
+                            placeholder="例：24"><br>
+
+                        <label for="total_time">１日の営業開始時間を入力してください:</label>
+                        <input class="form-control" type="number" id="total_time" min="0" max="24" placeholder="例：12"><br>
+
+                        <label for="online_review_number">レビュー数を入力してください:</label>
+                        <input class="form-control" type="number" id="online_review_number" min="0" max="1000000"
+                            placeholder="例：100"><br>
+
+                        <label for="online_review_rate">レビューを入力してください(整数):</label>
+                        <input class="form-control" type="number" id="online_review_rate" min="0" max="5"
+                            placeholder="例：5"><br>
+
+                        <label for="fee">料金を入力してください:</label>
+                        <input class="form-control" type="number" id="fee" min="0" max="1000000"
+                            placeholder="例：1000"><br>
+
+                        <label for="address">住所を入力してください:</label>
+                        <input class="form-control" type="text" id="address"
+                            placeholder="例：〒950-0916 新潟県新潟市中央区米山３丁目１−５３"><br>
+
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayText()">検索する</button>
+                        </div>
+                    </div>
+
+                    <div style="height: 24px;"></div>
+
+
+                </div>
+                <div class="col-6">
+                    <h3>検索結果一覧　（検索数：<span id="num"></span>）</h3>
+                    <div style="height: 16px;"></div>
+                    <div id="niigatapublicbathContainer"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <script>
+        apifetch("http://127.0.0.1:8000/api/?format=json")
+        function apifetch(ogapiurl) {
+            clearniigatapublicbathContainer()
+            apiurl = ogapiurl;
+            fetch(apiurl)
+                .then(response => response.json())
+                .then(data => {
+                    displayniigatapublicbathData(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching NiigataPublicBath data:', error);
+                });
+        }
+        function displayniigatapublicbathData(niigatapublicbathData) {
+            var num = 0;
+            niigatapublicbathData.forEach(niigatapublicbath => {
+                num += 1;
+                var niigatapublicbathElement = null
+                niigatapublicbathElement = document.createElement('div');
+                niigatapublicbathElement.innerHTML = `
+                <div class="container">
+                <table>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">銭湯名：</p></td>
+                        <td colspan="2"><p class="fs-3">${niigatapublicbath.name}</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">距離：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.distance}メートル</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">所要時間：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.time}分</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">定休日：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.business_holiday}</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">営業開始時間：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.opening_time}時</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">閉業時間：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.ending_time}時</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">１日の営業時間：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.total_time}時間</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">レビュー数：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.online_review_number}</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">レビュー：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.online_review_rate}/5</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">料金：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.fee}円</p></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"><p class="fw-light">住所：</p></td>
+                        <td colspan="2"><p class="fs-5">${niigatapublicbath.address}</p></td>
+                    </tr>
+                </table>
+                <hr>
+                </div>
+                `;
+                document.getElementById('niigatapublicbathContainer').appendChild(niigatapublicbathElement);
+            });
+            document.getElementById("num").innerHTML = String(num);
+        }
+        function addQueryParam(parameter, apiUrl) {
+            var inputValue = document.getElementById(parameter).value;
+            if (inputValue !== "") {
+                apiUrl += "&" + parameter + "=" + inputValue;
+            }
+            return apiUrl;
+        }
+        function addIntQueryParam(parameter, apiUrl) {
+            var inputValue = document.getElementById(parameter).value;
+            if (inputValue != "") {
+                inputValue = Math.round(Number(inputValue));
+                if (!isNaN(inputValue)) {
+                    inputValue = String(inputValue)
+                    apiUrl += "&" + parameter + "=" + inputValue
+                }
+            }
+            return apiUrl;
+        }
+        function displayText() {
+            let ogapiurl = "http://127.0.0.1:8000/api/?format=json";
+            ogapiurl = addQueryParam("name", ogapiurl);
+
+            ogapiurl = addIntQueryParam("distance", ogapiurl);
+            ogapiurl = addIntQueryParam("time", ogapiurl);
+
+            ogapiurl = addQueryParam("business_holiday", ogapiurl);
+
+            ogapiurl = addIntQueryParam("opening_time", ogapiurl);
+            ogapiurl = addIntQueryParam("ending_time", ogapiurl);
+            ogapiurl = addIntQueryParam("total_time", ogapiurl);
+            ogapiurl = addIntQueryParam("online_review_number", ogapiurl);
+            ogapiurl = addIntQueryParam("online_review_rate", ogapiurl);
+            ogapiurl = addIntQueryParam("fee", ogapiurl);
+
+            ogapiurl = addQueryParam("address", ogapiurl);
+            apifetch(ogapiurl)
+        }
+        function clearniigatapublicbathContainer() {
+            var niigatapublicbathContainer = document.getElementById('niigatapublicbathContainer');
+            while (niigatapublicbathContainer.firstChild) {
+                niigatapublicbathContainer.removeChild(niigatapublicbathContainer.firstChild);
+            }
+        }
+    </script>
+</body>
+
+</html>

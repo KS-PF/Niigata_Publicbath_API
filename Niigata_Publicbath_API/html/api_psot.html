@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <title>ローカル銭湯追加画面</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-9">
+                <h1 class="display-3">ローカル銭湯追加画面</h1>
+            </div>
+            <div class="col-3" style="padding: 10px;">
+                <button type="button" class="btn btn-outline-primary"> <a href="api_get.html">
+                        ホーム画面へ
+                    </a>
+                </button>
+            </div>
+        </div>
+        <div style="height: 16px;"></div>
+        <div class="container">
+            <h2>銭湯追加</h2>
+            <label for="name">銭湯名を入力してください:</label>
+            <input class="form-control" type="text" id="name" placeholder="例：新潟駅銭湯"><br>
+
+            <label for="distance">新潟駅からの距離(M)を入力してください:</label>
+            <input class="form-control" type="number" id="distance" min="0" max="1000000" placeholder="例：500"><br>
+
+            <label for="time">徒歩所用時間（分）を入力してください:</label>
+            <input class="form-control" type="number" id="time" min="0" max="1000000" placeholder="例：5"><br>
+
+            <label for="business_holiday">定休日を入力してください:</label>
+            <input class="form-control" type="text" id="business_holiday" placeholder="例：月、火"><br>
+
+            <label for="opening_time">営業開始時間を入力してください:</label>
+            <input class="form-control" type="number" id="opening_time" min="0" max="24" placeholder="例：8"><br>
+
+            <label for="ending_time">閉店時間を入力してください:</label>
+            <input class="form-control" type="number" id="ending_time" min="0" max="24" placeholder="例：24"><br>
+
+            <label for="total_time">総営業時間を入力してください:</label>
+            <input class="form-control" type="number" id="total_time" min="0" max="24" placeholder="例：24"><br>
+
+            <label for="online_review_number">レビュー数を入力してください:</label>
+            <input class="form-control" type="number" id="online_review_number" min="0" max="1000000"
+                placeholder="例：100"><br>
+
+            <label for="online_review_rate">レビューを入力してください(整数):</label>
+            <input class="form-control" type="number" id="online_review_rate" min="0" max="5" placeholder="例：5"><br>
+
+            <label for="fee">料金を入力してください:</label>
+            <input class="form-control" type="number" id="fee" min="0" max="1000000" placeholder="例：1000"><br>
+
+            <label for="address">住所を入力してください:</label>
+            <input class="form-control" type="text" id="address" placeholder="例：〒950-0916 新潟県新潟市中央区米山３丁目１−５３"><br>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="button" class="btn btn-outline-primary" onclick="PostNiigatapublicbathData()">追加を確定する</button>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <script>
+        function PostNiigatapublicbathData() {
+            var productData = {
+                "name": document.getElementById('name').value,
+
+                "distance": parseInt(document.getElementById('distance').value, 10),
+                "time": parseInt(document.getElementById('time').value, 10),
+
+                "business_holiday": document.getElementById('business_holiday').value,
+
+                "opening_time": parseInt(document.getElementById('opening_time').value, 10),
+                "ending_time": parseInt(document.getElementById('ending_time').value, 10),
+                "total_time": parseInt(document.getElementById('total_time').value, 10),
+                "online_review_number": parseInt(document.getElementById('online_review_number').value, 10),
+                "online_review_rate": parseInt(document.getElementById('online_review_rate').value, 10),
+                "fee": parseInt(document.getElementById('fee').value, 10),
+
+                "address": document.getElementById('address').value,
+            };
+            fetch('http://127.0.0.1:8000/api/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
+            })
+                .catch(error => console.error(error));
+        };
+    </script>
+</body>
+
+</html>
