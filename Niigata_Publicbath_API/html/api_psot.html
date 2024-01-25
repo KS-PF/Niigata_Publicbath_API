@@ -69,22 +69,18 @@
         function PostNiigatapublicbathData() {
             var productData = {
                 "name": document.getElementById('name').value,
-
                 "distance": parseInt(document.getElementById('distance').value, 10),
                 "time": parseInt(document.getElementById('time').value, 10),
-
                 "business_holiday": document.getElementById('business_holiday').value,
-
                 "opening_time": parseInt(document.getElementById('opening_time').value, 10),
                 "ending_time": parseInt(document.getElementById('ending_time').value, 10),
                 "total_time": parseInt(document.getElementById('total_time').value, 10),
                 "online_review_number": parseInt(document.getElementById('online_review_number').value, 10),
                 "online_review_rate": parseInt(document.getElementById('online_review_rate').value, 10),
                 "fee": parseInt(document.getElementById('fee').value, 10),
-
                 "address": document.getElementById('address').value,
             };
-            fetch('http://127.0.0.1:8000/api/', {
+            fetch('設定したURL/api/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
