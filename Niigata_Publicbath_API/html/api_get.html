@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +7,6 @@
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <title>ホーム画面(検索と表示)</title>
 </head>
-
 <body>
     <div class="container">
         <div class="row">
@@ -22,7 +20,6 @@
                 </button>
             </div>
         </div>
-
         <div style="height: 16px;"></div>
         <div class="container">
             <div class="row">
@@ -76,22 +73,17 @@
 
                     <div style="height: 24px;"></div>
 
-
                 </div>
                 <div class="col-6">
                     <h3>検索結果一覧　（検索数：<span id="num"></span>）</h3>
                     <div style="height: 16px;"></div>
                     <div id="niigatapublicbathContainer"></div>
-
                 </div>
             </div>
         </div>
-
-
-
     </div>
     <script>
-        apifetch("http://127.0.0.1:8000/api/?format=json")
+        apifetch("設定したURL/api/?format=json")
         function apifetch(ogapiurl) {
             clearniigatapublicbathContainer()
             apiurl = ogapiurl;
@@ -195,7 +187,7 @@
             return apiUrl;
         }
         function displayText() {
-            let ogapiurl = "http://127.0.0.1:8000/api/?format=json";
+            let ogapiurl = "設定したURL/api/?format=json";
             ogapiurl = addQueryParam("name", ogapiurl);
 
             ogapiurl = addIntQueryParam("distance", ogapiurl);
