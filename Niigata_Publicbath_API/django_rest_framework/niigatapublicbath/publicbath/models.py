@@ -4,7 +4,6 @@ class PublicbathModels(models.Model):
     name = models.CharField(max_length=64)
     business_holiday = models.CharField(max_length=64)
     address = models.CharField(max_length=258)
-
     distance = models.IntegerField()
     time = models.IntegerField()
     opening_time = models.IntegerField()
