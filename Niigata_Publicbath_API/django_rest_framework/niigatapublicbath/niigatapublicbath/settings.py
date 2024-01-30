@@ -8,6 +8,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    #設定したURL
-]
+# CORS_ORIGIN_WHITELIST = [
+#     'アクセスを制限したい場合はこちらに記述',
+# ]
+CORS_ALLOW_ALL_ORIGINS = True
